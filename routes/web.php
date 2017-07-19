@@ -11,8 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/','Cms\HomeController@index');
 
-Route::resource('articles', 'ArticleController');
+Route::resource('/home/articles', 'Cms\ArticleController');
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

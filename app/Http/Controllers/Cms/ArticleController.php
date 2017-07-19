@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 
 class ArticleController extends Controller
 {
+    public $module = 'article';
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +16,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
+        return View('cms.article.index');
     }
 
     /**

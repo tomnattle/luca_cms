@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 
 class ArticleCatController extends Controller
 {
+    public $module = 'article';
     /**
      * Display a listing of the resource.
      *
