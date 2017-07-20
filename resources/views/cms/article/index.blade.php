@@ -17,45 +17,36 @@
 
                 <div class="panel panel-default">
                   <div class="panel-heading">
-                      <button type="button" class="btn btn-primary">新增</button>
+                      <a href="{{url('home/articles/create')}}" type="button" class="btn btn-primary">
+                      新增 <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
                   </div>
                   <div class="panel-body">
                         <table class="table table-striped _list">
+                           @foreach ($articles as $article)
                            <tr>
-                              <td class="">古代的人智商情商比现代人高</td>
-                              <td class="" width="90">2017-01-25</td>
+                              <td class="">{{$article['title']}}</td>
+                              <td class="" width="90">{{date('Y-m-d',strtotime($article['created_at']))}}</td>
                               <td class="" width="50">
                                   <div class="btn-group">
                                       <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         编辑 <span class="caret"></span>
                                       </button>
                                       <ul class="dropdown-menu">
-                                         <li><a href="#">编辑</a></li>
-                                        <li><a href="#">删除</a></li>
+                                        <li><a class="btn btn-link" href="{{url('/home/articles/' . $article['id'] . '/edit')}}">编辑</a></li>
+                                        <li>
+                                            <form method="post" action="{{url('/home/articles/' . $article['id'])}}">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <input style="margin:0 auto; width: 100%; color: #333; text-decoration: none" class="btn btn-link" type="submit" value="删除">   
+                                            </form>
+                                        </li>  
                                       </ul>
                                     </div>
                                 </td>
-                            </tr> 
+                            </tr>
+                            @endforeach
                         </table>
-                        <nav aria-label="Page navigation ">
-                          <ul class="pagination pull-right">
-                            <li>
-                              <a href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                              </a>
-                            </li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li>
-                              <a href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                              </a>
-                            </li>
-                          </ul>
-                        </nav>
+                        {!! $articles->links() !!}
                   </div>
                 </div>
 @endsection

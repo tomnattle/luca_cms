@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Cms;
 
 use App\Cms\Article;
+use App\Cms\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
 
 class ArticleController extends Controller
 {
@@ -16,7 +18,10 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return View('cms.article.index');
+        $articles = Article::paginate(15);
+        return View('cms.article.index', [
+                'articles' => $articles
+            ]);
     }
 
     /**
@@ -26,7 +31,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        return View('cms.article.create');
     }
 
     /**
@@ -37,7 +42,19 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $model = new Article;
+        $model->title = $request->has('title') ? $request->input('title') : '';
+        $model->context = $request->has('context') ? $request->input('context') : '';
+        $model->index = $request->has('index') ? $request->input('index') : 0;
+        $model->c_id = $request->has('c_id') ? $request->input('c_id') : 0;
+        $model->g_id = $request->has('g_id') ? $request->input('g_id') : 0;
+        $model->cmp_id = Company::where('u_id', $request->user()->id)->first()['id'];
+        if($request->hasFile('cover')) {
+            $model->cover = $request->cover->store('images');
+        }
+        $model->save();
+        return  redirect()->route('articles.index');
     }
 
     /**
@@ -48,7 +65,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        //
+       
     }
 
     /**
@@ -59,7 +76,9 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
+        return View('cms.article.edit', [
+                'article' => $article
+            ]);
     }
 
     /**
@@ -71,7 +90,7 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        //
+        $article->save();
     }
 
     /**
@@ -81,7 +100,8 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Article $article)
-    {
-        //
+    {   
+        $article->delete();
+        return  redirect()->route('articles.index');
     }
 }
