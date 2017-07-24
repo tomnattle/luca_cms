@@ -81,7 +81,8 @@
                 <div class="list-group">
                   <a href="#" class="list-group-item {{isset($active['homepage']) ? $active['homepage'] : ''}}">主页</a>
                   <a href="{{url('home/articles')}}" class="list-group-item {{isset($active['article']) ? $active['article'] : ''}}">文章</a>
-                  <a href="#" class="list-group-item {{isset($active['setting']) ? $active['setting'] : ''}}">设置</a>
+                  <a href="{{url('home/groups')}}" class="list-group-item {{isset($active['group']) ? $active['group'] : ''}}">栏目</a>
+                  <a href="{{url('home/companies/edit')}}" class="list-group-item {{isset($active['company']) ? $active['company'] : ''}}">设置</a>
                 </div>
             </div>
             <div class="col-md-8 ">

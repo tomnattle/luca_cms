@@ -3,8 +3,8 @@
                  <nav class="navbar navbar-default">
                   <div class="container">
                     <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">文章<span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">分类</a></li>
+                    <li class="active"><a href="{{url('/home/articles')}}">文章<span class="sr-only">(current)</span></a></li>
+                    <li><a href="{{url('/home/article-cats')}}">分类</a></li>
                     <!--<li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                       <ul class="dropdown-menu">
@@ -17,8 +17,45 @@
 
                 <div class="panel panel-default">
                   <div class="panel-heading">
-                      <a href="{{url('home/articles/create')}}" type="button" class="btn btn-primary">
-                      新增 <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+                    <form action="{{url('/home/articles')}}" method="GET">
+                    <div class="row">
+                        <div class="col-xs-3">
+                          <a href="{{url('home/articles/create')}}" type="button" class="btn btn-primary">
+                          新增 <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+                        </div>
+
+                        <div class="col-xs-2">
+                            <select name="g_id" class="form-control" id="select_group">
+                                  <option value="0">栏目</option>
+                                  @foreach($groups as $group)
+                                  <option value="{{$group['gid']}}"
+                                  @if($g_id == $group['gid'])
+                                    selected="selected" 
+                                  @endif
+                                  >{{$group['name']}}</option>
+                                  @endforeach
+                             </select>
+                        </div>
+                        <div class="col-xs-2">
+                            <select name="c_id" class="form-control" id="select_cat">
+                              <option value="0">分类</option>
+                              @foreach($articleCats as $articleCat)
+                                  <option value="{{$articleCat['cid']}}"
+                                  @if($c_id == $articleCat['cid'])
+                                    selected="selected" 
+                                  @endif
+                                  >{{$articleCat['name']}}</option>
+                                  @endforeach
+                            </select>
+                        </div>
+                         <div class="col-xs-3">
+                            <input type="text" class="form-control" placeholder="关键词.." name="keywords" value="">
+                        </div>
+                         <div class="col-xs-2">
+                            <button type="submit" class="btn btn-primary">搜索</button>
+                        </div>
+                      </div>
+                    </form>
                   </div>
                   <div class="panel-body">
                         <table class="table table-striped _list">

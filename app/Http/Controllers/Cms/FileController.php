@@ -2,27 +2,20 @@
 
 namespace App\Http\Controllers\Cms;
 
-use App\Cms\Group;
+use App\Cms\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class GroupController extends Controller
+class FileController extends Controller
 {
-
-     public $module = 'group';
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {   
-       $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
-                ->paginate(30);
-       return View('cms.group.index', [
-                'groups' => $groups
-            ]);
-   
+    public function index()
+    {
+        //
     }
 
     /**
@@ -49,10 +42,10 @@ class GroupController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Cms\Group  $group
+     * @param  \App\Cms\File  $file
      * @return \Illuminate\Http\Response
      */
-    public function show(Group $group)
+    public function show(File $file)
     {
         //
     }
@@ -60,10 +53,10 @@ class GroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Cms\Group  $group
+     * @param  \App\Cms\File  $file
      * @return \Illuminate\Http\Response
      */
-    public function edit(Group $group)
+    public function edit(File $file)
     {
         //
     }
@@ -72,10 +65,10 @@ class GroupController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Cms\Group  $group
+     * @param  \App\Cms\File  $file
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Group $group)
+    public function update(Request $request, File $file)
     {
         //
     }
@@ -83,10 +76,10 @@ class GroupController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Cms\Group  $group
+     * @param  \App\Cms\File  $file
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Group $group)
+    public function destroy(File $file)
     {
         //
     }

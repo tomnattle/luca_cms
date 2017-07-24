@@ -14,8 +14,11 @@
 Route::get('/','Cms\HomeController@index');
 
 Route::group(['middleware' => ['auth']], function () {
+    Route::get('/home/companies/edit','Cms\CompanyController@_edit')->name('articles._edit');
+    Route::resource('/home/groups', 'Cms\GroupController');
     Route::resource('/home/articles', 'Cms\ArticleController');
     Route::resource('/home/article-cats', 'Cms\ArticleCatController');
+    Route::resource('/home/companies', 'Cms\CompanyController');
 });
 
 

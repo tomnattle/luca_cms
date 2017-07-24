@@ -1,11 +1,16 @@
+
 $(document).ready(function (){
 	(function init(){
 		Mustache.tags = [ '{', '}' ];
-		$('#select_group').bind('click', function (e){
+		$('#select_group_reload').change(function(e){
+			console.log(e);
+			window.location.href = '/home/article-cats?g_id=' + $(e.target).val();
+		});
+		$('#select_group').change(function (e){
 			model.loadArticleDetail(
 				model.ArticleDetail,
 				{
-					task_id : dom.getId(e),
+					g_id : $('#select_group').val(),
 					page : 1
 				},
 				function (data){
@@ -13,8 +18,7 @@ $(document).ready(function (){
 					data._created_at = function (){
 						return this.created_at.split(' ')[1];
 					};
-					console.log(data);
-					
+					tpls.render(tpls.render_select_cat(),{cats:data},'#select_cat');
 				}
 			);
 		});
@@ -22,11 +26,24 @@ $(document).ready(function (){
 	})()
 })
 
+var dom = {
+	getId : function (e){
+		return $(e.target).parent().parent().attr('data-id');
+	}
+}
 var tpls = {
-	'render_select_group' : function(data){
-		//$('#tpl-detail').html(Mustache.render(tpls.page_detail_list(), data));
-		//$('#detail').modal('show')
-		console.log(data)
+	render : function(view ,data ,container){
+		//console.log(data);
+		var html = Mustache.render(view, data);
+		//console.log(html);
+		$(container).html(html);
+	},
+	'render_select_cat' : function(data){
+		return '\
+		<option value="0">请选择分组</option>\
+		{#cats.data}\
+		<option value={cid}>{name}</option>\
+		{/cats.data}';
 	}
 }
 

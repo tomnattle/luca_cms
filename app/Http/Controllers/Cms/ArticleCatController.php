@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Cms;
 
 use App\Cms\ArticleCat;
+use App\Cms\Group;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,12 +17,28 @@ class ArticleCatController extends Controller
      */
     public function index(Request $request)
     {
-        $articleCats = ArticleCat::all();
+        $g_id = $request->has('g_id') ?  (int)$request->input('g_id') : 0;
+        if($g_id){
+            $articleCats = ArticleCat::where('g_id', $g_id)
+                ->where('cmp_id', $request->user()->getCompany()['id'])
+                ->orderBy('index', 'desc')
+                ->paginate(50);
+        }else{
+            $articleCats = [];
+        }
+
+        $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
+            ->where('model_type', Group::ARTICLE)
+            ->paginate(30);
+        
         if($request->ajax()){
             return $articleCats;
         }
-        
-        // form
+        return View('cms.article-cat.index', [
+                'articleCats' => $articleCats,
+                'g_id' => $g_id,
+                'groups' => $groups
+            ]);
     }
 
     /**
@@ -29,9 +46,14 @@ class ArticleCatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create(Request $request)
+    {   
+        $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
+                ->where('model_type', Group::ARTICLE)
+                ->paginate(30);
+        return View('cms.article-cat.create', [
+                'groups' => $groups
+            ]);
     }
 
     /**
@@ -42,7 +64,16 @@ class ArticleCatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $articleCat = new ArticleCat;
+        $articleCat->cmp_id =  $request->user()->getCompany()['id'];
+        $articleCat->g_id = $request->has('g_id') ? $request->input('g_id') : '';
+        $articleCat->name = $request->has('name') ? $request->input('name') : '';
+        $articleCat->index = $request->has('index') ? $request->input('index') : 0;
+        if($request->hasFile('cover')) {
+            $articleCat->cover = $request->cover->store('images');
+        }
+        $articleCat->save();
+        return  redirect()->route('article-cats.index', ['g_id' => $articleCat['g_id']]);
     }
 
     /**
@@ -51,9 +82,9 @@ class ArticleCatController extends Controller
      * @param  \App\Cms\ArticleCat  $articleCat
      * @return \Illuminate\Http\Response
      */
-    public function show(ArticleCat $articleCat)
-    {
-        //
+    public function show(Request $request, ArticleCat $articleCat)
+    {   
+        
     }
 
     /**
@@ -64,7 +95,9 @@ class ArticleCatController extends Controller
      */
     public function edit(ArticleCat $articleCat)
     {
-        //
+         return View('cms.article-cat.edit', [
+                'articleCat' => $articleCat
+            ]);
     }
 
     /**
@@ -76,7 +109,13 @@ class ArticleCatController extends Controller
      */
     public function update(Request $request, ArticleCat $articleCat)
     {
-        //
+        $articleCat->name = $request->has('name') ? $request->input('name') : '';
+        $articleCat->index = $request->has('index') ? $request->input('index') : 0;
+        if($request->hasFile('cover')) {
+            $articleCat->cover = $request->cover->store('images');
+        }
+        $articleCat->save();
+        return  redirect()->route('article-cats.index', ['g_id' => $articleCat['g_id']]);
     }
 
     /**
@@ -87,6 +126,7 @@ class ArticleCatController extends Controller
      */
     public function destroy(ArticleCat $articleCat)
     {
-        //
+        $articleCat->delete();
+        return  redirect()->route('article-cats.index', ['g_id' => $articleCat['g_id']]);
     }
 }

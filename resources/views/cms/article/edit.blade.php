@@ -3,8 +3,8 @@
                  <nav class="navbar navbar-default">
                   <div class="container">
                     <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">文章<span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">分类</a></li>
+                    <li class="active"><a href="{{url('/home/articles')}}">文章<span class="sr-only">(current)</span></a></li>
+                    <li><a href="{{url('/home/article-cats')}}">分类</a></li>
                     <!--<li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                       <ul class="dropdown-menu">
@@ -28,9 +28,18 @@
                             <input type="text" name="title" class="form-control"  placeholder="" value="{{$article['title']}}">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputFile">封面</label>
-                            <input type="file" name="cover">
-                            
+                           
+                            <div class="row">
+                              <div class="col-md-3">
+                                 <label for="exampleInputFile">封面</label>
+                                  <input type="file" name="cover">
+                              </div>
+                              <div class="col-md-5">
+                                @if($article['cover'])
+                                  <img src="{{url('storage/' .$article['cover'])}}" height="82" width="82" />
+                                @endif
+                              </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">内容</label>

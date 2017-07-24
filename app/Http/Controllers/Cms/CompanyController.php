@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 
 class CompanyController extends Controller
 {
+    public $module = 'company';
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +16,6 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -58,7 +58,22 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        //
+        
+         
+    }
+
+    public function _edit(Request $request){
+        $company = Company::find((int) $request->user()['id']);
+        if(!$company){
+            $company = new Company();
+            $company->uid = (int) $request->user()['id'];
+            $company->name = '';
+            $company->save();
+        }
+
+        return View('cms.company.edit', [
+                'company' => Company::findOrFail((int) $request->user()['id'])
+            ]);
     }
 
     /**
@@ -70,7 +85,14 @@ class CompanyController extends Controller
      */
     public function update(Request $request, Company $company)
     {
-        //
+        $company->name = $request->has('name') ? $request->input('name') : '';
+        $company->addr = $request->has('addr') ? $request->input('addr') : '';
+        $company->qq = $request->has('qq') ? $request->input('qq') : '';
+        $company->tel = $request->has('tel') ? $request->input('tel') : '';
+      
+        $company->save();
+        return  redirect()->route('articles._edit');
+        
     }
 
     /**
