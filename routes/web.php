@@ -13,7 +13,10 @@
 
 Route::get('/','Cms\HomeController@index');
 
-Route::resource('/home/articles', 'Cms\ArticleController');
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('/home/articles', 'Cms\ArticleController');
+    Route::resource('/home/article-cats', 'Cms\ArticleCatController');
+});
 
 
 Auth::routes();

@@ -20,12 +20,12 @@
                       <a href="{{url('home/articles')}}" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> 返回</a>
                   </div>
                   <div class="panel-body">
-                    <form action="{{url('/home/articles')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{url('/home/articles/' . $article['id'])}}" method="POST" enctype="multipart/form-data">
                          <input type="hidden" name="_method" value="PUT">
                          <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="form-group">
                             <label for="exampleInputEmail1">标题</label>
-                            <input type="text" name="title" class="form-control"  placeholder="">
+                            <input type="text" name="title" class="form-control"  placeholder="" value="{{$article['title']}}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputFile">封面</label>
@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">内容</label>
                             <!-- 加载编辑器的容器 -->
-                            <script id="container" name="context" type="text/plain">{{$article['context']}}</script>
+                            <script id="container" name="context" type="text/plain">{!! htmlspecialchars_decode($article['context'])!!}</script>
 
                             <!-- 实例化编辑器 -->
                             <script type="text/javascript">

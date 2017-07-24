@@ -14,9 +14,14 @@ class ArticleCatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $articleCats = ArticleCat::all();
+        if($request->ajax()){
+            return $articleCats;
+        }
+        
+        // form
     }
 
     /**

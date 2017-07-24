@@ -42,10 +42,38 @@
                                 var ue = UE.getEditor('container');
                             </script>
                         </div>
+                        <div class="row">
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="exampleInputEmail1">栏目</label>
+                                <select class="form-control" id="select_group">
+                                  <option value="0">默认</option>
+                                  @foreach($groups as $group)
+                                  <option value="{{$group['gid']}}">{{$group['name']}}</option>
+                                  @endforeach
+                                </select>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="exampleInputEmail1">分类</label>
+                                <select class="form-control">
+                                  <option value="0">默认</option>
+                                  <option></option>
+                                  <option>2</option>
+                                  <option>3</option>
+                                  <option>4</option>
+                                  <option>5</option>
+                                </select>
+                              </div>
+                          </div>
+                        </div>
+                        
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary pull-right">提交</button>
                         </div>
                     </form>
                   </div>
                 </div>
+ 
 @endsection

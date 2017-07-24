@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cms;
 
 use App\Cms\Article;
 use App\Cms\Company;
+use App\Cms\Group;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -29,9 +30,16 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return View('cms.article.create');
+        $groups = Group::where('model_type', Group::ARTICLE)
+            ->where('cmp_id', $request->user()->getCompany()['id'])
+            ->orderBy('created_at', 'desc')
+            ->orderBy('index', 'desc')
+            ->get();
+        return View('cms.article.create', [
+                'groups' => $groups
+            ]);
     }
 
     /**
@@ -43,17 +51,17 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
 
-        $model = new Article;
-        $model->title = $request->has('title') ? $request->input('title') : '';
-        $model->context = $request->has('context') ? $request->input('context') : '';
-        $model->index = $request->has('index') ? $request->input('index') : 0;
-        $model->c_id = $request->has('c_id') ? $request->input('c_id') : 0;
-        $model->g_id = $request->has('g_id') ? $request->input('g_id') : 0;
-        $model->cmp_id = Company::where('u_id', $request->user()->id)->first()['id'];
+        $article = new Article;
+        $articlearticle->title = $request->has('title') ? $request->input('title') : '';
+        $article->context = $request->has('context') ? $request->input('context') : '';
+        $article->index = $request->has('index') ? $request->input('index') : 0;
+        $article->c_id = $request->has('c_id') ? $request->input('c_id') : 0;
+        $article->g_id = $request->has('g_id') ? $request->input('g_id') : 0;
+        $article->cmp_id = Company::where('u_id', $request->user()->id)->first()['id'];
         if($request->hasFile('cover')) {
-            $model->cover = $request->cover->store('images');
+            $article->cover = $request->cover->store('images');
         }
-        $model->save();
+        $article->save();
         return  redirect()->route('articles.index');
     }
 
@@ -90,7 +98,15 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
+        
+        $article->title = $request->has('title') ? $request->input('title') : '';
+        $article->context = $request->has('context') ? $request->input('context') : '';
+        $article->index = $request->has('index') ? $request->input('index') : 0;
+        $article->c_id = $request->has('c_id') ? $request->input('c_id') : 0;
+        $article->g_id = $request->has('g_id') ? $request->input('g_id') : 0;
+        $article->cmp_id = Company::where('u_id', $request->user()->id)->first()['id'];
         $article->save();
+        return  redirect()->route('articles.index');
     }
 
     /**

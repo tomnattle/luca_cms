@@ -13,6 +13,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/mustache.min.js') }}"></script>
+    <script src="{{ asset('js/data.js') }}"></script>
     @include('UEditor::head')
 </head>
 <body>
