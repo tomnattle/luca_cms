@@ -87,6 +87,11 @@ class ArticleController extends Controller
         $article->cmp_id = Company::where('u_id', $request->user()->id)->first()['id'];
         if($request->hasFile('cover')) {
             $article->cover = $request->cover->store('images');
+            $file = new File();
+            $file->name = $article->cover;
+            $file->hash = md5_file(storage_path('/app/public/' .$article->cover));
+            $file->uid = $request->user()['id'];
+            $file->save();
         }
         $article->save();
         return  redirect()->route('articles.index');
@@ -136,7 +141,7 @@ class ArticleController extends Controller
             $article->cover = $request->cover->store('images');
             $file = new File();
             $file->name = $article->cover;
-            $file->hash = md5_file(storage_path() . '/app/public/' .$article->cover);
+            $file->hash = md5_file(storage_path('/app/public/' .$article->cover));
             $file->uid = $request->user()['id'];
             $file->save();
         }

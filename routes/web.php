@@ -19,6 +19,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/home/articles', 'Cms\ArticleController');
     Route::resource('/home/article-cats', 'Cms\ArticleCatController');
     Route::resource('/home/companies', 'Cms\CompanyController');
+    Route::resource('/home/albums', 'Cms\AlbumController');
 });
 
 

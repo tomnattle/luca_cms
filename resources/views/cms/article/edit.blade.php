@@ -36,7 +36,7 @@
                               </div>
                               <div class="col-md-5">
                                 @if($article['cover'])
-                                  <img src="{{url('storage/' .$article['cover'])}}" height="82" width="82" />
+                                  <img src="{{url('storage/' . $article['cover'])}}" height="82" width="82" />
                                 @endif
                               </div>
                             </div>

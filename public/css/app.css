@@ -7,3 +7,6 @@
 ._list .btn{
     padding: 0px;
 }
+.album img{ height: 120px; margin:0 auto; width: 90% }
+.album { text-align: center; }
+.album a{ display: block; }

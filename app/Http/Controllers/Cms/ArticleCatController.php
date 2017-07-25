@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cms;
 
 use App\Cms\ArticleCat;
 use App\Cms\Group;
+use App\Cms\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -71,6 +72,11 @@ class ArticleCatController extends Controller
         $articleCat->index = $request->has('index') ? $request->input('index') : 0;
         if($request->hasFile('cover')) {
             $articleCat->cover = $request->cover->store('images');
+            $file = new File();
+            $file->name = $articleCat->cover;
+            $file->hash = md5_file(storage_path('/app/public/' .$articleCat->cover));
+            $file->uid = $request->user()['id'];
+            $file->save();
         }
         $articleCat->save();
         return  redirect()->route('article-cats.index', ['g_id' => $articleCat['g_id']]);
@@ -113,6 +119,11 @@ class ArticleCatController extends Controller
         $articleCat->index = $request->has('index') ? $request->input('index') : 0;
         if($request->hasFile('cover')) {
             $articleCat->cover = $request->cover->store('images');
+            $file = new File();
+            $file->name = $articleCat->cover;
+            $file->hash = md5_file(storage_path('/app/public/' .$articleCat->cover));
+            $file->uid = $request->user()['id'];
+            $file->save();
         }
         $articleCat->save();
         return  redirect()->route('article-cats.index', ['g_id' => $articleCat['g_id']]);

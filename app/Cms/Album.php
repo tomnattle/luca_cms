@@ -4,9 +4,7 @@ namespace App\Cms;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Group extends Model
+class Album extends Model
 {
-    const ARTICLE = 1;
-
-    const AlBUM = 2;
+    //
 }
