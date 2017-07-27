@@ -19,14 +19,13 @@ class ArticleCatController extends Controller
     public function index(Request $request)
     {
         $g_id = $request->has('g_id') ?  (int)$request->input('g_id') : 0;
-        if($g_id){
-            $articleCats = ArticleCat::where('g_id', $g_id)
-                ->where('cmp_id', $request->user()->getCompany()['id'])
-                ->orderBy('index', 'desc')
-                ->paginate(50);
-        }else{
-            $articleCats = [];
-        }
+        
+        $articleCats = ArticleCat::where('cmp_id', $request->user()->getCompany()['id'])
+            ->orderBy('index', 'desc');
+        if($g_id)
+            $articleCats = $articleCats->where('g_id', $g_id);
+        
+        $articleCats = $articleCats ->paginate(50);
 
         $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
             ->where('model_type', Group::ARTICLE)
@@ -135,9 +134,12 @@ class ArticleCatController extends Controller
      * @param  \App\Cms\ArticleCat  $articleCat
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ArticleCat $articleCat)
+    public function destroy(Request $request, ArticleCat $articleCat)
     {
         $articleCat->delete();
+        if($request->ajax()){
+            return $articleCat->cid;
+        }
         return  redirect()->route('article-cats.index', ['g_id' => $articleCat['g_id']]);
     }
 }

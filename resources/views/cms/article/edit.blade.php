@@ -28,7 +28,38 @@
                             <input type="text" name="title" class="form-control"  placeholder="" value="{{$article['title']}}">
                         </div>
                         <div class="form-group">
-                           
+                           <div class="row">
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="exampleInputEmail1">分组</label>
+                                <select name="g_id" class="form-control" id="select_group">
+                                  <option value="0">默认</option>
+                                  @foreach($groups as $group)
+                                  <option
+                                   @if($group['gid'] == $article['g_id'])
+                                    selected="selected" 
+                                    @endif
+                                   value="{{$group['gid']}}">{{$group['name']}}</option>
+                                  @endforeach
+                                </select>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="exampleInputEmail1">分类</label>
+                                <select name="c_id" class="form-control" id="select_cat">
+                                  <option value="0">默认</option>
+                                   @foreach($articleCats as $articleCat)
+                                   <option
+                                   @if($articleCat['cid'] == $article['c_id'])
+                                    selected="selected" 
+                                    @endif
+                                   value="{{$articleCat['cid']}}">{{$articleCat['name']}}</option>
+                                  @endforeach
+                                </select>
+                              </div>
+                          </div>
+                        </div>
                             <div class="row">
                               <div class="col-md-3">
                                  <label for="exampleInputFile">封面</label>

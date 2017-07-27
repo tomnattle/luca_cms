@@ -19,10 +19,20 @@ class GroupController extends Controller
     {   
        $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
                 ->paginate(30);
+
        return View('cms.group.index', [
-                'groups' => $groups
+                'groups' => $groups,
+                'groupNames' => $this->getGroupName()
             ]);
    
+    }
+
+
+    public function getGroupName(){
+        return [
+            Group::ARTICLE => '文章',
+            Group::ALBUM => '相册',
+        ];
     }
 
     /**

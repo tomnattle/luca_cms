@@ -29,7 +29,7 @@
                              <div class="row">
                                 <div class="col-xs-4">
                                  <select name="g_id" class="form-control" >
-                                    <option value="0">请选择栏目</option>
+                                    <option value="0">请选择分组</option>
                                       @foreach($groups as $group)
                                       <option value="{{$group['gid']}}" >{{$group['name']}}</option>
                                       @endforeach

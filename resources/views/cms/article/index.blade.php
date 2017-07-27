@@ -26,7 +26,7 @@
 
                         <div class="col-xs-2">
                             <select name="g_id" class="form-control" id="select_group">
-                                  <option value="0">栏目</option>
+                                  <option value="0">分组</option>
                                   @foreach($groups as $group)
                                   <option value="{{$group['gid']}}"
                                   @if($g_id == $group['gid'])
@@ -70,13 +70,7 @@
                                       </button>
                                       <ul class="dropdown-menu">
                                         <li><a class="btn btn-link" href="{{url('/home/articles/' . $article['id'] . '/edit')}}">编辑</a></li>
-                                        <li>
-                                            <form method="post" action="{{url('/home/articles/' . $article['id'])}}">
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <input style="margin:0 auto; width: 100%; color: #333; text-decoration: none" class="btn btn-link" type="submit" value="删除">   
-                                            </form>
-                                        </li>  
+                                        <li><a class="btn btn-link bt_del_article" data-id="{{$article['id']}}" href="javascript:void(0)">删除</a></li>
                                       </ul>
                                     </div>
                                 </td>

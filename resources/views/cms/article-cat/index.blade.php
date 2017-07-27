@@ -24,7 +24,7 @@
                       <div class="row">
                         <div class="col-md-3">
                             <select name="g_id" class="form-control" id ="select_group_reload" >
-                            <option value="0">请选择栏目</option>
+                            <option value="0">请选择分组</option>
                               @foreach($groups as $group)
                               <option value="{{$group['gid']}}" 
                                 @if($group['gid'] == $g_id)
@@ -54,13 +54,7 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                           <li><a class="btn btn-link" href="{{url('/home/article-cats/' . $articleCat['cid'] . '/edit')}}">编辑</a></li>
-                                          <li>
-                                              <form method="post" action="{{url('/home/article-cats/' . $articleCat['cid'])}}">
-                                                  <input type="hidden" name="_method" value="DELETE">
-                                                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                  <input style="margin:0 auto; width: 100%; color: #333; text-decoration: none" class="btn btn-link" type="submit" value="删除">   
-                                              </form>
-                                          </li>  
+                                          <li><a class="btn btn-link bt_del_article_cat" data-id="{{$articleCat['cid']}}" href="javascript:void(0)">删除</a></li>
                                         </ul>
                                       </div>
                                   </td>

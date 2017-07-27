@@ -12,9 +12,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/mustache.min.js') }}"></script>
-    <script src="{{ asset('js/data.js') }}"></script>
+
+    
     @include('UEditor::head')
 </head>
 <body>
@@ -82,7 +81,7 @@
                   <a href="#" class="list-group-item {{isset($active['homepage']) ? $active['homepage'] : ''}}">主页</a>
                   <a href="{{url('home/articles')}}" class="list-group-item {{isset($active['article']) ? $active['article'] : ''}}">文章</a>
                   <a href="{{url('home/albums')}}" class="list-group-item {{isset($active['album']) ? $active['album'] : ''}}">相册</a>
-                  <a href="{{url('home/groups')}}" class="list-group-item {{isset($active['group']) ? $active['group'] : ''}}">栏目</a>
+                  <a href="{{url('home/groups')}}" class="list-group-item {{isset($active['group']) ? $active['group'] : ''}}">分组</a>
                   <a href="{{url('home/companies/edit')}}" class="list-group-item {{isset($active['company']) ? $active['company'] : ''}}">设置</a>
                 </div>
             </div>
@@ -91,8 +90,30 @@
             </div>
         </div>
     </div>
-
+    <div class="modal fade bs-example-modal-sm" id = "myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">提示</h4>
+          </div>
+          <div class="modal-body">
+            <p>One fine body&hellip;</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div>
+    </div>
+    <script src="{{ asset('js/jquery-1.6.3.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.cookie.js') }}"></script>
+    <script src="{{ asset('js/mustache.min.js') }}"></script>
+    <script src="{{ asset('js/tooltip.js') }}"></script>
+    <script src="{{ asset('js/popover.js') }}"></script>
+    <script src="{{ asset('js/data.js') }}"></script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+
 </body>
 </html>

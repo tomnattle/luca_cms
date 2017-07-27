@@ -4,9 +4,7 @@ namespace App\Cms;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Group extends Model
+class Photo extends Model
 {
-    const ARTICLE = 1;
-
-    const ALBUM = 2;
+    protected $primaryKey = 'pid';
 }

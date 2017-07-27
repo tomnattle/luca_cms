@@ -3,31 +3,25 @@
                  <nav class="navbar navbar-default">
                   <div class="container">
                     <ul class="nav navbar-nav">
-                    <li class="active"><a href="{{url('/home/articles')}}">文章<span class="sr-only">(current)</span></a></li>
-                    <li><a href="{{url('/home/article-cats')}}">分类</a></li>
-                    <!--<li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                      </ul>
-                    </li>-->
+                    <li class="active"><a href="{{url('/home/albums')}}">相册<span class="sr-only">(current)</span></a></li>
+                    
                   </ul>
                   </div>
                 </nav>
 
                 <div class="panel panel-default">
                   <div class="panel-heading">
-                      <a href="{{url('home/articles')}}" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> 返回</a>
+                      <a href="{{url('home/albums')}}" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> 返回</a>
                   </div>
                   <div class="panel-body">
-                    <form action="{{url('/home/articles')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{url('/home/photos')}}" method="POST" enctype="multipart/form-data">
                          <input type="hidden" name="_method" value="POST">
                          <input type="hidden" name="_token" value="{{ csrf_token() }}">
                          <div class="row">
                           <div class="col-md-4">
                               <div class="form-group">
                                 <label for="exampleInputEmail1">分组</label>
-                                <select name="g_id" class="form-control" id="select_group">
+                                <select name="g_id" class="form-control" id="select_group_album">
                                   <option value="0">默认</option>
                                   @foreach($groups as $group)
                                   <option value="{{$group['gid']}}">{{$group['name']}}</option>
@@ -37,31 +31,28 @@
                           </div>
                           <div class="col-md-4">
                               <div class="form-group">
-                                <label for="exampleInputEmail1">分类</label>
-                                <select name="c_id" class="form-control" id="select_cat">
-                                  <option value="0">默认</option>
+                                <label for="exampleInputEmail1">相册</label>
+                                <select name="a_id" class="form-control" id="select_cat_album">
+                                  <option value="0">请选择相册</option>
+                                  @foreach($albums as $album)
+                                  <option value="{{$album['aid']}}">{{$album['name']}}</option>
+                                  @endforeach
                                 </select>
                               </div>
                           </div>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">标题</label>
-                            <input type="text" name="title" class="form-control"  placeholder="">
+                            <input type="text" name="name" class="form-control"  placeholder="">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputFile">封面</label>
-                            <input type="file" name="cover">
+                            <label for="exampleInputFile">图片</label>
+                            <input type="file"  name="file">
                             
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">内容</label>
-                            <!-- 加载编辑器的容器 -->
-                            <script id="container" name="context" type="text/plain"></script>
-
-                            <!-- 实例化编辑器 -->
-                            <script type="text/javascript">
-                                var ue = UE.getEditor('container');
-                            </script>
+                            <label for="exampleInputEmail1">描述</label>
+                             <textarea name="desc" class="form-control" ></textarea> 
                         </div>
                         
                         

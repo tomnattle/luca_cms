@@ -20,6 +20,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/home/article-cats', 'Cms\ArticleCatController');
     Route::resource('/home/companies', 'Cms\CompanyController');
     Route::resource('/home/albums', 'Cms\AlbumController');
+    Route::resource('/home/photos', 'Cms\PhotoController');
+    Route::put('/home/albums/setCover/{photoId}', 'Cms\AlbumController@setCover')->where('photoId', '[0-9]+');
 });
 
 

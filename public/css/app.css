@@ -7,6 +7,8 @@
 ._list .btn{
     padding: 0px;
 }
-.album img{ height: 120px; margin:0 auto; width: 90% }
+.album img{ height: 120px; margin:0 auto; width: 100% }
 .album { text-align: center; }
 .album a{ display: block; }
+.luca_alert{ border-radius: 5px; border:solid 1px #d3e0e9;  position: absolute; top: 60px; right: 5px; max-width: 200px; background: #fcf8e3 }
+.luca_alert .title{ font-size:14px; font-weight: bold; border-bottom: solid 1px #d3e0e9; }

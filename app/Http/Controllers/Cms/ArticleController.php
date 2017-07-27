@@ -114,10 +114,19 @@ class ArticleController extends Controller
      * @param  \App\Cms\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function edit(Article $article)
+    public function edit(Request $request, Article $article)
     {
+        $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
+            ->where('model_type', Group::ARTICLE)
+            ->paginate(30);
+        $articleCats = [];
+        
+       $articleCats = ArticleCat::where('g_id', $article['g_id'])
+        ->paginate(30);
         return View('cms.article.edit', [
-                'article' => $article
+                'article' => $article,
+                'groups' => $groups,
+                'articleCats' => $articleCats
             ]);
     }
 
@@ -155,9 +164,12 @@ class ArticleController extends Controller
      * @param  \App\Cms\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Article $article)
+    public function destroy(Request $request, Article $article)
     {   
         $article->delete();
+        if($request->ajax()){
+            return $article->id;
+        }
         return  redirect()->route('articles.index');
     }
 }
