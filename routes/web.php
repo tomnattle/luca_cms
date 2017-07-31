@@ -12,6 +12,7 @@
 */
 
 Route::get('/','Cms\HomeController@index');
+Route::get('/company/home','Cms\HomeController@company')->name('/company/home');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home/companies/edit','Cms\CompanyController@_edit')->name('articles._edit');
@@ -23,7 +24,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/home/photos', 'Cms\PhotoController');
     Route::put('/home/albums/setCover/{photoId}', 'Cms\AlbumController@setCover')->where('photoId', '[0-9]+');
 });
-
 
 Auth::routes();
 
