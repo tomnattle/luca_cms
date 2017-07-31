@@ -13,63 +13,63 @@ img{border:0;}
 ul {margin: 0px;padding:0px;}
 li {
     list-style-type: none;
-    background:url(img/biao2.gif) no-repeat;
+    background:url(/company/cmsa/img/biao2.gif) no-repeat;
     padding-left:15px;
     background-position: left;
 }
 
 .bg {
-    background-image: url(img/bg.jpg);
+    background-image: url(/company/cmsa/img/bg.jpg);
     background-repeat: no-repeat;
     background-position: top;
 }
 .bg2 {
-    background-image: url(img/bg2.jpg);
+    background-image: url(/company/cmsa/img/bg2.jpg);
     background-repeat: repeat-y;
     background-position: center top;
 }
 .bg_wygk {
-    background-image: url(img/wygk.jpg);
+    background-image: url(/company/cmsa/img/wygk.jpg);
     background-repeat: no-repeat;
     background-position: top;
 }
 .bg_fzr {
-    background-image: url(img/fzrbg.jpg);
+    background-image: url(/company/cmsa/img/fzrbg.jpg);
     background-repeat: no-repeat;
     background-position: top;
 }
 .bg_wyxz {
-    background-image: url(img/wyszbg.jpg);
+    background-image: url(/company/cmsa/img/wyszbg.jpg);
     background-repeat: no-repeat;
     background-position: top;
 }
 .bg_wyls {
-    background-image: url(img/wyyy.jpg);
+    background-image: url(/company/cmsa/img/wyyy.jpg);
     background-repeat: no-repeat;
     background-position: top;
 }
 .bg_msdjt {
-    background-image: url(img/msdjt.jpg);
+    background-image: url(/company/cmsa/img/msdjt.jpg);
     background-repeat: no-repeat;
     background-position: top;
 }
 .bg_xsyj {
-    background-image: url(img/msyj.jpg);
+    background-image: url(/company/cmsa/img/msyj.jpg);
     background-repeat: no-repeat;
     background-position: top;
 }
 .bg_msyy {
-    background-image: url(img/msyl.jpg);
+    background-image: url(/company/cmsa/img/msyl.jpg);
     background-repeat: no-repeat;
     background-position: top;
 }
 .bg_wydt{
-    background-image: url(img/wydtbg.jpg);
+    background-image: url(/company/cmsa/img/wydtbg.jpg);
     background-repeat: no-repeat;
     background-position: top;
 }
 .bg_ldgh {
-    background-image: url(img/ldgh.jpg);
+    background-image: url(/company/cmsa/img/ldgh.jpg);
     background-repeat: no-repeat;
     background-position: top;
 }
@@ -295,11 +295,11 @@ cursor:pointer;
 margin-top: 68px;
 }
 .img1{
-background-image:url(images/an_05.jpg);
+background-image:url(/company/cmsa/images/an_05.jpg);
 background-repeat: no-repeat;
 background-position: center center;}
 .img2{
-background-image:url(images/an_03.jpg);
+background-image:url(/company/cmsa/images/an_03.jpg);
 background-repeat: no-repeat;
 background-position: center center;
 }
@@ -308,10 +308,10 @@ background-position: center center;
 .tabmenu .li{margin:0;padding:0;border:0;list-style:none;outline:none;}
 .tabmenu{ width:369px;cursor:pointer; margin:0;padding:0; }
 .tabbox{  height:auto;margin:0;padding:0; padding-top:25px; }
-.tabmenu .on{ width:123px; height:35px; float:left; background:url(images/tab_03.jpg); line-height:35px; color:#FFF; text-align:center; font-weight:bold; font-size:14px;}
+.tabmenu .on{ width:123px; height:35px; float:left; background:url(/company/cmsa/images/tab_03.jpg); line-height:35px; color:#FFF; text-align:center; font-weight:bold; font-size:14px;}
 .on,.out{ cursor:hand}
 ul{ list-style:none}
-.tabmenu li{ width:123px; height:35px; float:left; background:url(images/tab_05.jpg); line-height:35px; text-align:center; color:#164d84;  font-weight:bold;margin:0 1px 0 0;margin:0;padding:0;}
+.tabmenu li{ width:123px; height:35px; float:left; background:url(/company/cmsa/images/tab_05.jpg); line-height:35px; text-align:center; color:#164d84;  font-weight:bold;margin:0 1px 0 0;margin:0;padding:0;}
 
 .STYLE1 {color: #000000}
 .STYLE1 a{color: #000000; text-decoration:none; }

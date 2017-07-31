@@ -15,7 +15,7 @@
     <td><a href='http://www.cmsa.org.cn/' target='_blank' title=民生智库><img src='http://www.cmsa.org.cn/upimage/OaA6RCjcyq.jpg' width=958 height=154 border='0'/></a></td>
   </tr>
 </table>
-<table width="958" border="0" align="center" cellpadding="0" cellspacing="0" background="/img/navbg.jpg">
+<table width="958" border="0" align="center" cellpadding="0" cellspacing="0" background="/company/cmsa/img/navbg.jpg">
   <tr>
     <td width="727" height="34" align="center"><table width="90%" border="0" cellspacing="0" cellpadding="0">
       <tr>
