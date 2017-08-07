@@ -5,10 +5,16 @@ namespace App\Http\Controllers\Cms;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Cms\Company;
+use App\Repositories\Cms\ArticleRepository;
 
 class HomeController extends Controller
 {
     protected $module = '';
+    protected $articleRepository;
+
+    public function __construct(ArticleRepository $articleRepository){
+        $this->articleRepository = $articleRepository;
+    }
     
     public function index(){
         $company = config('app.company');
@@ -26,7 +32,15 @@ class HomeController extends Controller
             'company' => $company,
             'view' => resource_path('views') . '/company/' . config('app.company'),
             '_url' => function($pageName, $params = []){
-                return "/company/home?view=" .$pageName . '&' . implode('&', $params);
+                return "/company/home?view=" .$pageName . '&' . http_build_query($params);
+            },
+            'page' => $request->has('page') ? (int)$request->input('page') : 1,
+            'id' => $request->has('id') ? (int)$request->input('id') : 0,
+            'repository' => function ($name){
+                $loaders = [
+                    'article' => $this->articleRepository
+                ];
+                return $loaders[$name];
             }
         ]);
     }

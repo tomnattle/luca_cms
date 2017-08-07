@@ -7,8 +7,8 @@ body {
     margin: 0px;
     padding: 0px;
 }
-
-
+#menu{ background: url(/company/cmsa/img/navbg.jpg) repeat-x }
+#bhh{background-image: url(/company/cmsa/images/9.jpg);background-repeat: no-repeat;background-position: top;}
 img{border:0;}
 ul {margin: 0px;padding:0px;}
 li {
