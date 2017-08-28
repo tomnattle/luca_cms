@@ -62,7 +62,7 @@
                            @foreach ($articles as $article)
                            <tr>
                               <td class="">{{$article['title']}}</td>
-                              <td class="" width="90">{{date('Y-m-d',strtotime($article['created_at']))}}</td>
+                              <td class="" width="120">{{date('Y-m-d',strtotime($article['created_at']))}}</td>
                               <td class="" width="50">
                                   <div class="btn-group">
                                       <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
