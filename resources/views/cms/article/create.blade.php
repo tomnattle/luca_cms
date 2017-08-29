@@ -49,9 +49,13 @@
                             <input type="text" name="title" class="form-control"  placeholder="">
                         </div>
                         <div class="form-group">
+                            <label for="exampleInputEmail1">副题</label>
+                            <input type="text" name="extra[sub-title]" class="form-control"  placeholder="">
+                        </div>
+                        <div class="form-group">
                             <label for="exampleInputFile">封面</label>
                             <input type="file" name="cover">
-                            
+
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">内容</label>
@@ -63,13 +67,13 @@
                                 var ue = UE.getEditor('container');
                             </script>
                         </div>
-                        
-                        
+
+
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary pull-right">提交</button>
                         </div>
                     </form>
                   </div>
                 </div>
- 
+
 @endsection

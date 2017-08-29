@@ -20,11 +20,11 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {   
+    {
         $g_id = $request->has('g_id') ? (int)$request->input('g_id') : 0;
         $c_id = $request->has('c_id') ? (int)$request->input('c_id') : 0;
         $keywords = $request->has('keywords') ? (int)$request->input('keywords') : '';
-        
+
         $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
             ->where('model_type', Group::ARTICLE)
             ->paginate(30);
@@ -33,7 +33,7 @@ class ArticleController extends Controller
            $articleCats = ArticleCat::where('cmp_id', $request->user()->getCompany()['id'])
             ->where('g_id', $g_id)
             ->paginate(30);
-                
+
         $articles = Article::where('cmp_id', $request->user()->getCompany()['id']);
         if($g_id)
             $articles = $articles->where('g_id', $g_id);
@@ -84,6 +84,8 @@ class ArticleController extends Controller
         $article->index = $request->has('index') ? $request->input('index') : 0;
         $article->c_id = $request->has('c_id') ? $request->input('c_id') : 0;
         $article->g_id = $request->has('g_id') ? $request->input('g_id') : 0;
+        $article->extra = $request->has('extra') ? json_encode($request->input('extra')) : '[]';
+
         $article->cmp_id = Company::where('u_id', $request->user()->id)->first()['id'];
         if($request->hasFile('cover')) {
             $article->cover = $request->cover->store('images');
@@ -105,7 +107,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-       
+
     }
 
     /**
@@ -120,7 +122,8 @@ class ArticleController extends Controller
             ->where('model_type', Group::ARTICLE)
             ->paginate(30);
         $articleCats = [];
-        
+
+       $article['extra'] = json_decode($article['extra'], 1);
        $articleCats = ArticleCat::where('g_id', $article['g_id'])
         ->paginate(30);
         return View('cms.article.edit', [
@@ -139,13 +142,14 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        
+
         $article->title = $request->has('title') ? $request->input('title') : '';
         $article->context = $request->has('context') ? $request->input('context') : '';
         $article->index = $request->has('index') ? $request->input('index') : 0;
         $article->c_id = $request->has('c_id') ? $request->input('c_id') : 0;
         $article->g_id = $request->has('g_id') ? $request->input('g_id') : 0;
         $article->cmp_id = Company::where('u_id', $request->user()->id)->first()['id'];
+        $article->extra = $request->has('extra') ? json_encode($request->input('extra')) : '[]';
         if($request->hasFile('cover')) {
             $article->cover = $request->cover->store('images');
             $file = new File();
@@ -165,7 +169,7 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, Article $article)
-    {   
+    {
         $article->delete();
         if($request->ajax()){
             return $article->id;

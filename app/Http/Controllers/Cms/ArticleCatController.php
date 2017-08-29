@@ -19,18 +19,18 @@ class ArticleCatController extends Controller
     public function index(Request $request)
     {
         $g_id = $request->has('g_id') ?  (int)$request->input('g_id') : 0;
-        
+
         $articleCats = ArticleCat::where('cmp_id', $request->user()->getCompany()['id'])
             ->orderBy('index', 'desc');
         if($g_id)
             $articleCats = $articleCats->where('g_id', $g_id);
-        
+
         $articleCats = $articleCats ->paginate(50);
 
         $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
             ->where('model_type', Group::ARTICLE)
             ->paginate(30);
-        
+
         if($request->ajax()){
             return $articleCats;
         }
@@ -47,7 +47,7 @@ class ArticleCatController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
-    {   
+    {
         $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
                 ->where('model_type', Group::ARTICLE)
                 ->paginate(30);
@@ -88,8 +88,8 @@ class ArticleCatController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, ArticleCat $articleCat)
-    {   
-        
+    {
+
     }
 
     /**

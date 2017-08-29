@@ -28,6 +28,10 @@
                             <input type="text" name="title" class="form-control"  placeholder="" value="{{$article['title']}}">
                         </div>
                         <div class="form-group">
+                            <label for="exampleInputEmail1">标题</label>
+                            <input type="text" name="extra[sub-title]" class="form-control"  placeholder="" value="{{$article['extra']['sub-title']}}">
+                        </div>
+                        <div class="form-group">
                            <div class="row">
                           <div class="col-md-4">
                               <div class="form-group">
@@ -37,7 +41,7 @@
                                   @foreach($groups as $group)
                                   <option
                                    @if($group['gid'] == $article['g_id'])
-                                    selected="selected" 
+                                    selected="selected"
                                     @endif
                                    value="{{$group['gid']}}">{{$group['name']}}</option>
                                   @endforeach
@@ -52,7 +56,7 @@
                                    @foreach($articleCats as $articleCat)
                                    <option
                                    @if($articleCat['cid'] == $article['c_id'])
-                                    selected="selected" 
+                                    selected="selected"
                                     @endif
                                    value="{{$articleCat['cid']}}">{{$articleCat['name']}}</option>
                                   @endforeach
@@ -81,7 +85,7 @@
                             <script type="text/javascript">
                                 var ue = UE.getEditor('container');
                                     ue.ready(function() {
-                                    ue.execCommand('serverparam', '_token', '{{ csrf_token() }}');//此处为支持laravel5 csrf ,根据实际情况修改,目的就是设置 _token 值.    
+                                    ue.execCommand('serverparam', '_token', '{{ csrf_token() }}');//此处为支持laravel5 csrf ,根据实际情况修改,目的就是设置 _token 值.
                                 });
                             </script>
                         </div>

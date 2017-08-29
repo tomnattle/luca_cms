@@ -72,46 +72,41 @@ background-position: top;">
                   </tr>
                 </table>
 
-            <?php $repository('article');?>
+            <?php
 
-                <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                  <td align="left"><table width="416" border="0" cellpadding="0" cellspacing="0" class="bk6">
-                    <tr>
-                      <td width="149"><a href="/shownews/ehsz_2477.html"><img src="/company/cmsa/upimage/A06H4QUkSp.png" width="149" height="192" /></a></td>
-                      <td valign="top"><table width="100%" border="0" cellspacing="15" cellpadding="0">
-                        <tr>
-                          <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                              <td height="30" align="left"><a href="/shownews/ehsz_2477.html" class="b14" style="font-family:'宋体'; font-weight:bold;">金一南</a> <span class="blue142">国防大学战略教研部原副主任国际战略研究所所长、少将</span></td>
-                            </tr>
-                            <tr>
-                              <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;2007年当选中共十七大代表、全军英模代表大会代表。2008年被评为“改革开放30年军营新闻人物”、当选第十一届全国政协委员。  <a href="/shownews/ehsz_2477.html" class="blue12">[更多]</a></td>
-                            </tr>
-                          </table></td>
-                        </tr>
-                      </table></td>
-                    </tr>
-                  </table></td>
-                    <td align="left"><table width="416" border="0" cellpadding="0" cellspacing="0" class="bk6">
-                    <tr>
-                      <td width="149"><a href="/shownews/ehsz_2212.html"><img src="/company/cmsa/upimage/pvokiKMxAl.jpg" width="149" height="192" /></a></td>
-                      <td valign="top"><table width="100%" border="0" cellspacing="15" cellpadding="0">
-                        <tr>
-                          <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                              <td height="30" align="left"><a href="/shownews/ehsz_2212.html" class="b14" style="font-family:'宋体'; font-weight:bold;">解思忠</a> <span class="blue142">国务院国资委原国有重点大型企业监事会主席</span></td>
-                            </tr>
-                            <tr>
-                              <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;第十一届全国政协委员，国务院国资委原监事会主席（副部长级），曾任国务院研究室教科文卫司司长，博士生导师。  <a href="/shownews/ehsz_2212.html" class="blue12">[更多]</a></td>
-                            </tr>
-                          </table></td>
-                        </tr>
-                      </table></td>
-                    </tr>
-                  </table></td>
-   </tr>
-              </table>
+            $g_id = 7;
+            $c_id = 9;
+            $artRep = $repository('article');
+            $articles = $artRep->getList($company['id'], $g_id, $c_id, $page = 1, $page_num = 15);
+            ?>
+
+            @foreach($articles as $article)
+            <div class="col">
+            <table width="416" border="0" cellpadding="0" cellspacing="0" class="bk6">
+              <tr>
+                <td width="149"><a href="/shownews/ehsz_2477.html"><img src="{{url('storage/' . $article['cover'])}}" width="149" height="192" /></a></td>
+                <td valign="top"><table width="100%" border="0" cellspacing="15" cellpadding="0">
+                  <tr>
+                    <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td height="30" align="left"><a href="/shownews/ehsz_2477.html" class="b14" style="font-family:'宋体'; font-weight:bold;">{{$article['title']}}</a> <span class="blue142">国防大学战略教研部原副主任国际战略研究所所长、少将</span></td>
+                      </tr>
+                      <tr>
+                        <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;{{str_limit(strip_tags($article['context']), 150)}}<a href="/company/home?view=detail&id={{$article['id']}}" class="blue12">[更多]</a></td>
+                      </tr>
+                    </table></td>
+                  </tr>
+                </table></td>
+              </tr>
+            </table>
+            </div>
+            @endforeach
+            <div style="clear:both"></div>
+            <style>
+            .col{ width: 50%; float: left;}
+            </style>
+
+
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td>&nbsp;</td>

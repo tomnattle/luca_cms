@@ -11,7 +11,7 @@ class ArticleRepository{
     public function getList($cmp_id, $g_id, $c_id, $page = 1, $page_num = 15){
         $articles = Article::where('cmp_id',$cmp_id)
             ->where('g_id',$g_id);
-            
+
         if($c_id){
             $articles = $articles->where('c_id',$c_id);
         }
