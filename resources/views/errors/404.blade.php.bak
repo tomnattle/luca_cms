@@ -1,0 +1,10 @@
+<style type="text/css">
+    body{
+        background: #3798cf;
+    }
+</style>
+<div style="text-align: center; padding-top: 150px;">
+    <span style='color:white; font-size: 120px; font-weight: bolde;'>404</span><br>
+    
+    <p><a href="/" style="text-decoration: none; color: #fff;">回到首页</a></p>
+</div>

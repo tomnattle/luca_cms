@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Cms;
 
-use App\Cms\Group;
+use App\Cms\ArticleGroup;
 use App\Cms\File;
 use App\Cms\Album;
 use App\Cms\Photo;
@@ -21,7 +21,7 @@ class AlbumController extends Controller
     {   
         $g_id = $request->has('g_id') ? $request->input('g_id') : '';
 
-        $albums = Album::where('cmp_id', $request->user()->getCompany()['id']);
+        $albums = Album::where('site_id', $request->user()->getSite()['id']);
         if($g_id)
              $albums = $albums->where('g_id', $g_id);
         $albums = $albums->paginate(16);
@@ -30,8 +30,8 @@ class AlbumController extends Controller
             return $albums;
         }
 
-        $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
-            ->where('model_type', Group::ALBUM)
+        $groups = ArticleGroup::where('site_id', $request->user()->getSite()['id'])
+            ->where('model_type', ArticleGroup::ALBUM)
             ->paginate(30);
 
         return View('cms.album.index', [
@@ -48,8 +48,8 @@ class AlbumController extends Controller
      */
     public function create(Request $request)
     {
-        $groups = $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
-            ->where('model_type', Group::ALBUM)
+        $groups = $groups = ArticleGroup::where('site_id', $request->user()->getSite()['id'])
+            ->where('model_type', ArticleGroup::ALBUM)
             ->paginate(30);
         ;
         return View('cms.album.create', [
@@ -66,8 +66,8 @@ class AlbumController extends Controller
     public function store(Request $request)
     {
         $album = new Album;
-        $album->cmp_id =  $request->user()->getCompany()['id'];
-        $album->uid =  $request->user()['id'];
+        $album->site_id =  $request->user()->getSite()['id'];
+        $album->u_id =  $request->user()['id'];
         $album->g_id = $request->has('g_id') ? $request->input('g_id') : '';
         $album->name = $request->has('name') ? $request->input('name') : '';
         $album->index = $request->has('index') ? $request->input('index') : 0;
@@ -76,7 +76,7 @@ class AlbumController extends Controller
             $file = new File();
             $file->name = $album->cover;
             $file->hash = md5_file(storage_path('/app/public/' .$album->cover));
-            $file->uid = $request->user()['id'];
+            $file->u_id = $request->user()['id'];
             $file->save();
         }
         $album->save();
@@ -102,8 +102,10 @@ class AlbumController extends Controller
      */
     public function edit(Request $request, Album $album)
     {
-        $groups = $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
-            ->where('model_type', Group::ALBUM)
+        if($album->site_id !=  $request->user()->getSite()['id'])
+            throw new \Exception("unvlid operate");
+        $groups = $groups = ArticleGroup::where('site_id', $request->user()->getSite()['id'])
+            ->where('model_type', ArticleGroup::ALBUM)
             ->paginate(30);
         ;
         return View('cms.album.edit', [
@@ -121,6 +123,8 @@ class AlbumController extends Controller
      */
     public function update(Request $request, Album $album)
     {
+        if($album->site_id !=  $request->user()->getSite()['id'])
+            throw new \Exception("unvlid operate");
         $album->g_id = $request->has('g_id') ? $request->input('g_id') : '';
         $album->name = $request->has('name') ? $request->input('name') : '';
         $album->index = $request->has('index') ? $request->input('index') : 0;
@@ -129,7 +133,7 @@ class AlbumController extends Controller
             $file = new File();
             $file->name = $album->cover;
             $file->hash = md5_file(storage_path('/app/public/' .$album->cover));
-            $file->uid = $request->user()['id'];
+            $file->u_id = $request->user()['id'];
             $file->save();
         }
         $album->save();
@@ -145,9 +149,11 @@ class AlbumController extends Controller
      */
     public function destroy(Request $request, Album $album)
     {
+        if($album->site_id !=  $request->user()->getSite()['id'])
+            throw new \Exception("unvlid operate");
         $album->delete();
         if($request->ajax()){
-            return $album->aid;
+            return $album->id;
         }
     }
 
@@ -155,9 +161,11 @@ class AlbumController extends Controller
         $photo = Photo::findOrFail($photoId);
         if ($photo['a_id']){
             $album = Album::findOrFail($photo['a_id']);
+            if($album->site_id !=  $request->user()->getSite()['id'])
+                throw new \Exception("unvlid operate");
             $album->cover = $photo->file;
             $album->save();
-            return $album['aid'];
+            return $album['id'];
         }else{
             return '';
         }

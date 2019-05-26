@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Cms;
 use App\Cms\Article;
 use App\Cms\ArticleCat;
 use App\Cms\Company;
-use App\Cms\Group;
+use App\Cms\ArticleGroup;
 use App\Cms\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,18 +23,18 @@ class ArticleController extends Controller
     {
         $g_id = $request->has('g_id') ? (int)$request->input('g_id') : 0;
         $c_id = $request->has('c_id') ? (int)$request->input('c_id') : 0;
-        $keywords = $request->has('keywords') ? (int)$request->input('keywords') : '';
+        $keywords = $request->has('keywords') ? $request->input('keywords') : '';
 
-        $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
-            ->where('model_type', Group::ARTICLE)
+        $groups = ArticleGroup::where('site_id', $request->user()->getSite()['id'])
+            ->where('model_type', ArticleGroup::ARTICLE)
             ->paginate(30);
         $articleCats = [];
         if($g_id)
-           $articleCats = ArticleCat::where('cmp_id', $request->user()->getCompany()['id'])
+           $articleCats = ArticleCat::where('site_id', $request->user()->getSite()['id'])
             ->where('g_id', $g_id)
             ->paginate(30);
 
-        $articles = Article::where('cmp_id', $request->user()->getCompany()['id']);
+        $articles = Article::where('site_id', $request->user()->getSite()['id']);
         if($g_id)
             $articles = $articles->where('g_id', $g_id);
         if($c_id)
@@ -42,7 +42,13 @@ class ArticleController extends Controller
         if($keywords)
             $articles = $articles->where('title', 'like', '%'. $keywords .'%');
 
+        $articles->orderBy('id', 'desc');
         $articles = $articles->paginate(15);
+        $articles->appends([
+                'g_id' => $g_id,
+                'c_id' => $c_id,
+                'keywords' => $keywords
+            ]);
         return View('cms.article.index', [
                 'articles' => $articles,
                 'groups' => $groups,
@@ -59,8 +65,8 @@ class ArticleController extends Controller
      */
     public function create(Request $request)
     {
-        $groups = Group::where('model_type', Group::ARTICLE)
-            ->where('cmp_id', $request->user()->getCompany()['id'])
+        $groups = ArticleGroup::where('model_type', ArticleGroup::ARTICLE)
+            ->where('site_id', $request->user()->getSite()['id'])
             ->orderBy('created_at', 'desc')
             ->orderBy('index', 'desc')
             ->get();
@@ -84,15 +90,25 @@ class ArticleController extends Controller
         $article->index = $request->has('index') ? $request->input('index') : 0;
         $article->c_id = $request->has('c_id') ? $request->input('c_id') : 0;
         $article->g_id = $request->has('g_id') ? $request->input('g_id') : 0;
-        $article->extra = $request->has('extra') ? json_encode($request->input('extra')) : '[]';
+        $article->extra = $request->has('extra') ? ($request->input('extra')) : '[]';
 
-        $article->cmp_id = Company::where('u_id', $request->user()->id)->first()['id'];
+        $article->addr_id = $request->has('province') ? ($request->input('province')) : 0;
+        if($request->has('province'))
+            $article->addr_id = (int)($request->input('province'));
+        if($request->has('city'))
+            $article->addr_id = (int)($request->input('city'));
+        if($request->has('area'))
+            $article->addr_id = (int)($request->input('area'));
+        if($request->has('town'))
+            $article->addr_id = (int)($request->input('town'));
+
+        $article->site_id = $request->user()->getSite()['id'];
         if($request->hasFile('cover')) {
             $article->cover = $request->cover->store('images');
             $file = new File();
             $file->name = $article->cover;
             $file->hash = md5_file(storage_path('/app/public/' .$article->cover));
-            $file->uid = $request->user()['id'];
+            $file->u_id = $request->user()['id'];
             $file->save();
         }
         $article->save();
@@ -118,12 +134,15 @@ class ArticleController extends Controller
      */
     public function edit(Request $request, Article $article)
     {
-        $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
-            ->where('model_type', Group::ARTICLE)
+        if($article->site_id !=  $request->user()->getSite()['id'])
+            throw new \Exception("unvlid operate");
+            
+        $groups = ArticleGroup::where('site_id', $request->user()->getSite()['id'])
+            ->where('model_type', ArticleGroup::ARTICLE)
             ->paginate(30);
         $articleCats = [];
 
-       $article['extra'] = json_decode($article['extra'], 1);
+       //$article['extra'] = json_decode($article['extra'], 1);
        $articleCats = ArticleCat::where('g_id', $article['g_id'])
         ->paginate(30);
         return View('cms.article.edit', [
@@ -142,20 +161,31 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-
+        if($article->site_id !=  $request->user()->getSite()['id'])
+            throw new \Exception("unvlid operate");
         $article->title = $request->has('title') ? $request->input('title') : '';
         $article->context = $request->has('context') ? $request->input('context') : '';
         $article->index = $request->has('index') ? $request->input('index') : 0;
         $article->c_id = $request->has('c_id') ? $request->input('c_id') : 0;
         $article->g_id = $request->has('g_id') ? $request->input('g_id') : 0;
-        $article->cmp_id = Company::where('u_id', $request->user()->id)->first()['id'];
-        $article->extra = $request->has('extra') ? json_encode($request->input('extra')) : '[]';
+        $article->extra = $request->has('extra') ? ($request->input('extra')) : '[]';
+
+        $article->addr_id = $request->has('province') ? ($request->input('province')) : 0;
+        if($request->has('province'))
+            $article->addr_id = (int)($request->input('province'));
+        if($request->has('city'))
+            $article->addr_id = (int)($request->input('city'));
+        if($request->has('area'))
+            $article->addr_id = (int)($request->input('area'));
+        if($request->has('town'))
+            $article->addr_id = (int)($request->input('town'));
+        
         if($request->hasFile('cover')) {
             $article->cover = $request->cover->store('images');
             $file = new File();
             $file->name = $article->cover;
             $file->hash = md5_file(storage_path('/app/public/' .$article->cover));
-            $file->uid = $request->user()['id'];
+            $file->u_id = $request->user()['id'];
             $file->save();
         }
         $article->save();
@@ -170,6 +200,8 @@ class ArticleController extends Controller
      */
     public function destroy(Request $request, Article $article)
     {
+        if($article->site_id !=  $request->user()->getSite()['id'])
+            throw new \Exception("unvlid operate");
         $article->delete();
         if($request->ajax()){
             return $article->id;

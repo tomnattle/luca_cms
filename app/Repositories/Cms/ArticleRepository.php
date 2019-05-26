@@ -8,15 +8,17 @@ class ArticleRepository{
         return 1;
     }
 
-    public function getList($cmp_id, $g_id, $c_id, $page = 1, $page_num = 15){
-        $articles = Article::where('cmp_id',$cmp_id)
+    public function getList($site_id, $g_id, $c_id, $page_num = 15, $order = 'asc'){
+        $articles = Article::where('site_id',$site_id)
             ->where('g_id',$g_id);
 
         if($c_id){
             $articles = $articles->where('c_id',$c_id);
         }
 
-        $articles = $articles->paginate(15);
+        $articles->orderBy('id', $order);
+
+        $articles = $articles->paginate($page_num);
         return $articles;
     }
 

@@ -7,6 +7,7 @@
   <meta name="description" content="民生研究-为贯彻落实中办、国办《关于加强中国特色新型智库建设的意见》，以建设“专业化高端智库”为目标，在中国民生研究院的基础上组建民生智库。" /> 
   <link href="/company/cmsa/css/css.css" rel="stylesheet" type="text/css" /> 
   <script type="text/javaScript" src="/company/cmsa/js/gund.js"></script> 
+ 
  </head> 
  <body> 
   <table width="958" border="0" align="center" cellpadding="0" cellspacing="0"> 
@@ -54,5 +55,28 @@
     </tr> 
    </tbody>
   </table>
+  <script type="text/javascript">
+    function GetObj(objName){
+if(document.getElementById){
+return eval('document.getElementById("' + objName + '")');
+}else if(document.layers){
+return eval("document.layers['" + objName +"']");
+}else{
+return eval('document.all.' + objName);
+}
+}
+function PARMenu(index,flag){
+for(var i=0;i<9;i++){/* max-4 */
+if(GetObj("content"+i)&&GetObj("PARm"+i)){
+GetObj("content"+i).style.display = 'none';
+GetObj("PARm"+i).className = "out";
+}
+}
+if(GetObj("content"+index)&&GetObj("PARm"+index)){
+GetObj("content"+index).style.display = 'block';
+GetObj("PARm"+index).className = "on";
+}
+}
+  </script>
  </body>
 </html>

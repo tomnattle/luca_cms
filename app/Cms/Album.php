@@ -2,9 +2,11 @@
 
 namespace App\Cms;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Album extends Model
 {
-    protected $primaryKey = 'aid';
+    use SoftDeletes;
+    protected $primaryKey = 'id';
 }

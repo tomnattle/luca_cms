@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Cms;
 
 use App\Cms\ArticleCat;
-use App\Cms\Group;
+use App\Cms\ArticleGroup;
 use App\Cms\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,15 +20,15 @@ class ArticleCatController extends Controller
     {
         $g_id = $request->has('g_id') ?  (int)$request->input('g_id') : 0;
 
-        $articleCats = ArticleCat::where('cmp_id', $request->user()->getCompany()['id'])
+        $articleCats = ArticleCat::where('site_id', $request->user()->getSite()['id'])
             ->orderBy('index', 'desc');
         if($g_id)
             $articleCats = $articleCats->where('g_id', $g_id);
 
         $articleCats = $articleCats ->paginate(50);
 
-        $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
-            ->where('model_type', Group::ARTICLE)
+        $groups = ArticleGroup::where('site_id', $request->user()->getSite()['id'])
+            ->where('model_type', ArticleGroup::ARTICLE)
             ->paginate(30);
 
         if($request->ajax()){
@@ -48,8 +48,8 @@ class ArticleCatController extends Controller
      */
     public function create(Request $request)
     {
-        $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
-                ->where('model_type', Group::ARTICLE)
+        $groups = ArticleGroup::where('site_id', $request->user()->getSite()['id'])
+                ->where('model_type', ArticleGroup::ARTICLE)
                 ->paginate(30);
         return View('cms.article-cat.create', [
                 'groups' => $groups
@@ -65,16 +65,17 @@ class ArticleCatController extends Controller
     public function store(Request $request)
     {
         $articleCat = new ArticleCat;
-        $articleCat->cmp_id =  $request->user()->getCompany()['id'];
+        $articleCat->site_id =  $request->user()->getSite()['id'];
         $articleCat->g_id = $request->has('g_id') ? $request->input('g_id') : '';
         $articleCat->name = $request->has('name') ? $request->input('name') : '';
         $articleCat->index = $request->has('index') ? $request->input('index') : 0;
+        $articleCat->extra = '';
         if($request->hasFile('cover')) {
             $articleCat->cover = $request->cover->store('images');
             $file = new File();
             $file->name = $articleCat->cover;
             $file->hash = md5_file(storage_path('/app/public/' .$articleCat->cover));
-            $file->uid = $request->user()['id'];
+            $file->u_id = $request->user()['id'];
             $file->save();
         }
         $articleCat->save();
@@ -98,11 +99,13 @@ class ArticleCatController extends Controller
      * @param  \App\Cms\ArticleCat  $articleCat
      * @return \Illuminate\Http\Response
      */
-    public function edit(ArticleCat $articleCat)
+    public function edit(Request $request, ArticleCat $articleCat)
     {
-         return View('cms.article-cat.edit', [
-                'articleCat' => $articleCat
-            ]);
+        if($articleCat->site_id !=  $request->user()->getSite()['id'])
+            throw new \Exception("unvlid operate");
+        return View('cms.article-cat.edit', [
+            'articleCat' => $articleCat
+        ]);
     }
 
     /**
@@ -114,6 +117,8 @@ class ArticleCatController extends Controller
      */
     public function update(Request $request, ArticleCat $articleCat)
     {
+        if($articleCat->site_id !=  $request->user()->getSite()['id'])
+            throw new \Exception("unvlid operate");
         $articleCat->name = $request->has('name') ? $request->input('name') : '';
         $articleCat->index = $request->has('index') ? $request->input('index') : 0;
         if($request->hasFile('cover')) {
@@ -121,7 +126,7 @@ class ArticleCatController extends Controller
             $file = new File();
             $file->name = $articleCat->cover;
             $file->hash = md5_file(storage_path('/app/public/' .$articleCat->cover));
-            $file->uid = $request->user()['id'];
+            $file->u_id = $request->user()['id'];
             $file->save();
         }
         $articleCat->save();
@@ -136,9 +141,11 @@ class ArticleCatController extends Controller
      */
     public function destroy(Request $request, ArticleCat $articleCat)
     {
+        if($articleCat->site_id !=  $request->user()->getSite()['id'])
+            throw new \Exception("unvlid operate");
         $articleCat->delete();
         if($request->ajax()){
-            return $articleCat->cid;
+            return $articleCat->c_id;
         }
         return  redirect()->route('article-cats.index', ['g_id' => $articleCat['g_id']]);
     }

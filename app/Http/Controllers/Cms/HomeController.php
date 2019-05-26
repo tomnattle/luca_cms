@@ -26,7 +26,7 @@ class HomeController extends Controller
         $company = Company::where([
             'name' => config('app.company')
             ])->first();
-        
+
         $view = (!$request->has('view'))? 'index' : $request->input('view');
         return View('company.' . config('app.company') . '.' . $view,[
             'company' => $company,

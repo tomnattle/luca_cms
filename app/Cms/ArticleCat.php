@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArticleCat extends Model
 {
-    protected $primaryKey = 'cid';
+    protected $primaryKey = 'id';
     use SoftDeletes;
 
-     protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at'];
 }

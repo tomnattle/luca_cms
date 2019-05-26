@@ -56,5 +56,13 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'site.select' => \App\Http\Middleware\SiteSelect::class,
+        'RejectEmptyValues' => \App\Http\Middleware\RejectEmptyValues::class,
+        'front' => \App\Http\Middleware\Front::class,
+        'AfterUpload' => \App\Http\Middleware\AfterUpload::class,
+        'uservisite' => \App\Http\middleware\UserVisite::class,
+        'admin' => \App\Http\middleware\Admin::class,
+        'cors' => \App\Http\Middleware\Cors::class,
+        'comment' => \App\Http\Middleware\Comment::class,
     ];
 }

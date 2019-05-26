@@ -13,6 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
+$domain = 'fanbai123.cn';
+if(env('APP_ENV') == 'local'){
+    $domain = 'luca_cms.com';
+}
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

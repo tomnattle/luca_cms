@@ -12,7 +12,7 @@
                 <td width="74%" align="left"><table border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td width="20" align="center"><img src="/company/cmsa/img/biao5.jpg" width="4" height="7" /></td>
-                    <td align="center"><a href="/index.html" class="b12">首页</a></td>
+                    <td align="center"><a href="/" class="b12">首页</a></td>
                     <td width='20' align='center'><img src='/img/biao5.jpg' width='4' height='7' /></td><td align='center' class='r12'>联系我们</td>                  </tr>
                 </table></td>
               </tr>
@@ -46,30 +46,10 @@
     <br />
 </p>
 <blockquote>
-    <p>
-        <span style="font-size:14px;">&nbsp;&nbsp;&nbsp; 为贯彻落实中办、国办《关于加强中国特色新型智库建设的意见》，以建设“专业化高端智库”为目标，在中国民生研究院的基础上组建民生智库。</span>
-    </p>
-    <p>
-        <span style="font-size:14px;">&nbsp;&nbsp;&nbsp; 期待更多有志于民生问题研究的专家学者共同参与。</span> 
-    </p>
-<span></span> 
-</blockquote>
-<blockquote>
-    <p>
-        <span style="font-size:14px;">&nbsp;&nbsp;&nbsp; 地&nbsp; 址：北京市海淀区万寿路甲12号D座7层</span> 
-    </p>
-    <p>
-        <span style="font-size:14px;">&nbsp;&nbsp;&nbsp; 邮&nbsp; 编：100036</span> 
-    </p>
-    <p>
-        <span style="font-size:14px;">&nbsp;&nbsp;&nbsp; 电&nbsp; 话：010-68005797</span> 
-    </p>
-    <p>
-        <span style="font-size:14px;">&nbsp;&nbsp;&nbsp; 传&nbsp; 真：010-68007379</span> 
-    </p>
-    <p>
-        <span><span style="font-size:14px;">&nbsp;&nbsp;&nbsp; 邮&nbsp; 箱：</span><a href="mailto:cmsa@cmsa.org.cn"><span style="font-size:14px;">cmsa@cmsa.org.cn</span></a></span> 
-    </p>
+    <?php 
+    $artRep = $repository('article');
+    echo $artRep->get(40)['context'];
+    ?>
 </blockquote></td>
                       </tr>
                     </table></td>

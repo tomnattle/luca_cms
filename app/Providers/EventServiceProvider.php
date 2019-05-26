@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Log;
+use App\Events\Event as EventT;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -26,7 +28,13 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-
+        /**
+        Event::listen('event.*', function ($eventName, array $data) {
+            Log::debug($eventName);
+        });
+        Log::debug(123);
+        event(new EventT([]));
         //
+        **/
     }
 }

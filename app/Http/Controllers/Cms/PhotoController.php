@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Cms;
 
 use App\Cms\Photo;
-use App\Cms\Group;
+use App\Cms\ArticleGroup;
 use App\Cms\Album;
 use App\Cms\Company;
 use App\Cms\File;
@@ -24,16 +24,16 @@ class PhotoController extends Controller
         $a_id = $request->has('a_id') ? (int)$request->input('a_id') : 0;
         $keywords = $request->has('keywords') ? (int)$request->input('keywords') : '';
         
-        $groups = Group::where('cmp_id', $request->user()->getCompany()['id'])
-            ->where('model_type', Group::ALBUM)
+        $groups = ArticleGroup::where('site_id', $request->user()->getSite()['id'])
+            ->where('model_type', ArticleGroup::ALBUM)
             ->paginate(30);
         $photoCats = [];
         if($g_id)
-           $photoCats = Photo::where('cmp_id', $request->user()->getCompany()['id'])
+           $photoCats = Photo::where('site_id', $request->user()->getSite()['id'])
             ->where('g_id', $g_id)
             ->paginate(30);
                 
-        $photos = Photo::where('cmp_id', $request->user()->getCompany()['id']);
+        $photos = Photo::where('site_id', $request->user()->getSite()['id']);
         if($g_id)
             $photos = $photos->where('g_id', $g_id);
         if($a_id)
@@ -58,11 +58,11 @@ class PhotoController extends Controller
      */
     public function create(request $request)
     {
-        $albums = Album::where('cmp_id', $request->user()->getCompany()['id'])
+        $albums = Album::where('site_id', $request->user()->getSite()['id'])
             //->where('g_id', 0)
             ->get();
-        $groups = Group::where('model_type', Group::ALBUM)
-            ->where('cmp_id', $request->user()->getCompany()['id'])
+        $groups = ArticleGroup::where('model_type', ArticleGroup::ALBUM)
+            ->where('site_id', $request->user()->getSite()['id'])
             ->orderBy('created_at', 'desc')
             ->orderBy('index', 'desc')
             ->get();
@@ -86,14 +86,14 @@ class PhotoController extends Controller
         $photo->index = $request->has('index') ? $request->input('index') : 0;
         $photo->g_id = $request->has('g_id') ? $request->input('g_id') : 0;
         $photo->a_id = $request->has('a_id') ? $request->input('a_id') : 0;
-        $photo->uid = $request->user()->id;
-        $photo->cmp_id = Company::where('u_id', $request->user()->id)->first()['id'];
+        $photo->u_id = $request->user()->id;
+        $photo->site_id = $request->user()->getSite()['id'];
         if($request->hasFile('file')) {
             $photo->file = $request->file->store('images');
             $file = new File();
             $file->name = $photo->file;
             $file->hash = md5_file(storage_path('/app/public/' .$photo->file));
-            $file->uid = $request->user()['id'];
+            $file->u_id = $request->user()['id'];
             $file->save();
         }
         $photo->save();
@@ -142,9 +142,11 @@ class PhotoController extends Controller
      */
     public function destroy(Request $request, Photo $photo)
     {
+        if($photo->site_id !=  $request->user()->getSite()['id'])
+            throw new \Exception("unvlid operate");
         $photo->delete();
         if($request->ajax()){
-            return $photo->aid;
+            return $photo->id;
         }
     }
 }
